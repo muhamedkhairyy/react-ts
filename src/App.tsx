@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Outlet,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import Home from "./pages/Home";
+import ForwardedItem from "./pages/ForwardedItem";
+import ReversedItem from "./pages/ReversedItem";
+import NavBar from "./components/NavBar";
 
-function App() {
+export function App() {
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<Root />}>
+        <Route index element={<Home />}></Route>
+        <Route path="Forwarded-item" element={<ForwardedItem />}></Route>
+        <Route path="Reversed-item" element={<ReversedItem />}></Route>
+      </Route>
+    )
+  );
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <RouterProvider router={router} />
+    </>
   );
 }
-
-export default App;
+const Root = () => {
+  return (
+    <div>
+      <NavBar />
+      <Outlet />
+    </div>
+  );
+};
